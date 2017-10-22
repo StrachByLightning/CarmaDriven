@@ -17,6 +17,7 @@ export class HomePage {
 
   }
 
+
   startScanner(): void {
   	const cameraPreviewOpts: CameraPreviewOptions = {
 	  x: 0,
@@ -44,7 +45,14 @@ export class HomePage {
 	  quality: 85
 	}
 
-	this.cameraPreview.takePicture(pictureOpts).then((imageData) => {
+	var intervalID = setInterval(() => {
+		this.analyzePicture(pictureOpts);
+	}, 5000);
+
+  	}
+
+  	analyzePicture(pictureOpts): void {
+  		this.cameraPreview.takePicture(pictureOpts).then((imageData) => {
 	  	var picture = 'data:image/jpeg;base64,' + imageData;
 	  	this.CVS.getAlerts(picture)
 
@@ -71,4 +79,5 @@ export class HomePage {
 		  console.log(err);
 		});
   	}
+
 }
