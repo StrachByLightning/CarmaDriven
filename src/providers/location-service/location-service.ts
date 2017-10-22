@@ -31,9 +31,6 @@ export class LocationServiceProvider {
     }
 
     let tempURL = this.BASE_URL + "?lat=" + lat + "&lon=" + lon + "&apikey=" + this.API_KEY;
-    /*this.http.post(tempURL, body).subscribe(function(res){
-      console.log(res);
-    });*/
 
     return this.http.get(tempURL);
   }
