@@ -27,17 +27,19 @@ export class HomePage {
     this.updateSafetySpeech(10000);
   }
 
+  public showMenu = true;
 
 
   startScanner(): void {
+  	this.showMenu = false;
   	const cameraPreviewOpts: CameraPreviewOptions = {
-	  x: 0,
-	  y: 0,
-	  width: window.screen.width,
-	  height: window.screen.height,
+	  x: window.screen.width/4,
+	  y: window.screen.height/4,
+	  width: window.screen.width/2,
+	  height: window.screen.height/2,
 	  camera: 'rear',
 	  tapPhoto: true,
-	  previewDrag: true,
+	  previewDrag: false,
 	  toBack: false,
 	  alpha: 1
 	};
@@ -75,13 +77,10 @@ export class HomePage {
       		var response = this.CVS.getAlerts(blob)
       		response.toPromise()
       		.then(res => {
-      			console.log(res.json())
           		var tts = this.CVS.processData(res.json())
           		if (tts == null){
-          			console.log("Nothin")
           		} else {
           			this.tts.speak(tts).catch((reason: any) => console.log(reason))
-          			console.log(tts)
           		}
         	});
       	});
