@@ -23,19 +23,20 @@ export class computerVisionService {
   }
 
   processData(data) {
-    for(var prediction in data['Predictions']){
-      if (prediction['Tag'] == "pedestrian" && prediction['Probability'] > .4){
+    for(var i = 0; i < data['Predictions'].length; i++){
+      var prediction = data['Predictions'][i]
+
+      if (prediction["Tag"] == "pedestrian" && prediction['Probability'] > .4){
         return "Pedestrians ahead";
       }
-      else if(prediction['Tag'] == "stop_sign" && prediction['Probability'] > .4){
+      else if(prediction["Tag"] == "stop_sign" && prediction['Probability'] > .4){
         return "Stop sign ahead";
       }
-      else if(prediction['Tag'] == "red_light" && prediction['Probability'] > .4){
+      else if(prediction["Tag"] == "red_light" && prediction['Probability'] > .4){
         return "Red light ahead";
       }
-      else {
-        return null
-      }
+      
     }
+    return null;
   }
 }
