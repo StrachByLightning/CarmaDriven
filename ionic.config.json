@@ -1,6 +1,6 @@
 {
   "name": "CarmaDriven",
-  "app_id": "",
+  "app_id": "bdb45e68",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}
