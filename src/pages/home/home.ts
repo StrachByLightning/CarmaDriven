@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { CameraPreview, CameraPreviewOptions, CameraPreviewPictureOptions } from '@ionic-native/camera-preview';
 import { computerVisionService } from '../../providers/cognitive-service/computerVisionService'
+import 'rxjs/add/operator/toPromise';
 
 @Component({
   selector: 'page-home',
@@ -46,6 +47,25 @@ export class HomePage {
 	this.cameraPreview.takePicture(pictureOpts).then((imageData) => {
 	  	var picture = 'data:image/jpeg;base64,' + imageData;
 	  	this.CVS.getAlerts(picture)
+
+	  	fetch(picture)
+      		.then((response) => {
+        		return response.blob()
+      	})
+      	.then((blob) => {
+      		var response = this.CVS.getAlerts(blob)
+      		response.toPromise()
+      		.then(res => {
+          		var tts = this.CVS.processData(res.json())
+          		if (tts == null){
+          			console.log("Nothin")
+          		} else {
+          			console.log(tts)
+          		}
+        	});
+      	});
+
+
 		}, (err) => {
 		  console.log(err);
 		});
