@@ -42,7 +42,7 @@
             "cordova-plugin-camera-preview": {},
             "cordova-plugin-ionic": {
                 "APP_ID": "bdb45e68",
-                "CHANNEL_NAME": "Master",
+                "CHANNEL_NAME": "feature/camera",
                 "UPDATE_METHOD": "background"
             }
         }
