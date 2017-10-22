@@ -1,25 +1,33 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { CameraPreview, CameraPreviewOptions, CameraPreviewPictureOptions } from '@ionic-native/camera-preview';
+import { computerVisionService } from '../../providers/cognitive-service/computerVisionService'
+
+import 'rxjs/add/operator/toPromise';
 import { LocationServiceProvider } from '../../providers/location-service/location-service';
 import { Geolocation } from '@ionic-native/geolocation';
-import { CameraPreview, CameraPreviewOptions } from '@ionic-native/camera-preview';
 import { TextToSpeech } from '@ionic-native/text-to-speech';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
-  providers: [CameraPreview, Geolocation, TextToSpeech]
+  providers: [CameraPreview, computerVisionService, TextToSpeech, Geolocation]
 })
 export class HomePage {
 	public safety = 100;
 	private prevSafety = 100;
 
-	constructor(public navCtrl: NavController, private cameraPreview: CameraPreview, 
-		private locationService: LocationServiceProvider, private geolocation: Geolocation,
-		private tts: TextToSpeech) { 
-			this.updateSafetySpeech(10000);
-		}
-	
+  constructor(public navCtrl: NavController,
+  			private cameraPreview: CameraPreview,
+  			private CVS: computerVisionService,
+        private locationService: LocationServiceProvider, 
+        private geolocation: Geolocation,
+  			private tts: TextToSpeech) {
+    this.updateSafetySpeech(10000);
+  }
+
+
+
   startScanner(): void {
   	const cameraPreviewOpts: CameraPreviewOptions = {
 	  x: 0,
@@ -40,6 +48,49 @@ export class HomePage {
 	  (err) => {
 	    console.log(err)
 	  });
+
+	const pictureOpts: CameraPreviewPictureOptions = {
+	  width: 1280,
+	  height: 1280,
+	  quality: 85
+	}
+
+	var intervalID = setInterval(() => {
+		this.analyzePicture(pictureOpts);
+	}, 5000);
+
+  	}
+
+  	analyzePicture(pictureOpts): void {
+  		this.cameraPreview.takePicture(pictureOpts).then((imageData) => {
+	  	var picture = 'data:image/jpeg;base64,' + imageData;
+	  	this.CVS.getAlerts(picture)
+
+	  	fetch(picture)
+      		.then((response) => {
+        		return response.blob()
+      	})
+      	.then((blob) => {
+      		var response = this.CVS.getAlerts(blob)
+      		response.toPromise()
+      		.then(res => {
+      			console.log(res.json())
+          		var tts = this.CVS.processData(res.json())
+          		if (tts == null){
+          			console.log("Nothin")
+          		} else {
+          			this.tts.speak(tts).catch((reason: any) => console.log(reason))
+          			console.log(tts)
+          		}
+        	});
+      	});
+
+
+		}, (err) => {
+		  console.log(err);
+		});
+  	}
+
 	}
 	
 	/**
