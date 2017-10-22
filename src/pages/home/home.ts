@@ -2,17 +2,20 @@ import { CameraPreview, CameraPreviewPictureOptions, CameraPreviewOptions, Camer
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { LocationServiceProvider } from '../../providers/location-service/location-service';
+import {Geolocation} from '@ionic-native/geolocation';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
-  providers: [[CameraPreview]]
+  providers: [[CameraPreview, Geolocation]]
 })
 
 
 export class HomePage {
+	private safety = 0;
 
-	constructor(public navCtrl: NavController, private cameraPreview: CameraPreview) { }
+	constructor(public navCtrl: NavController, private cameraPreview: CameraPreview, 
+		private locationService: LocationServiceProvider, private geolocation: Geolocation) { }
 	
 
 	startScanning() {		
@@ -36,4 +39,11 @@ export class HomePage {
 		  });
 	}
 
+	getSafety() {
+		this.geolocation.getCurrentPosition({enableHighAccuracy: true, timeout: 5000}).then(res => {
+			this.locationService.getSafety(res.coords.latitude, res.coords.longitude).subscribe(res => {
+				this.safety = res.totalHomeScores.safety.value; }, err => console.log(err)
+			);
+		});
+	}
 }
