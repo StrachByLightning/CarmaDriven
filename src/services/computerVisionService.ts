@@ -28,11 +28,9 @@ export class computerVisionService {
       else if(prediction.Tag == "red_light" && prediction.Probability > .8){
         return "Red light ahead";
       }
-      else{
-        return null;
-      }
     }
 
+    return null;
   }
 
 }
