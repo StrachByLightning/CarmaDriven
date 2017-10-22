@@ -42,7 +42,7 @@ export class HomePage {
 			this.locationService.getSafety(res.coords.latitude, res.coords.longitude)
 				.subscribe(
 					res => {
-						this.safety = res.totalHomeScores.safety.value;
+						
 					}, err=> {
 						console.log(err);
 					}
