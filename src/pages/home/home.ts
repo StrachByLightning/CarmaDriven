@@ -56,6 +56,7 @@ export class HomePage {
       		var response = this.CVS.getAlerts(blob)
       		response.toPromise()
       		.then(res => {
+      			console.log(res.json())
           		var tts = this.CVS.processData(res.json())
           		if (tts == null){
           			console.log("Nothin")

@@ -13,7 +13,7 @@ export class computerVisionService {
         let headers = new Headers({ 'Content-Type': 'application/octet-stream', 'Prediction-Key' : 'edd3305821f746ef8702558ef984cb97'})
         let options = new RequestOptions({ headers: headers })
 
-        return this.http.post('https://southcentralus.api.cognitive.microsoft.com/customvision/v1.0/Prediction/4308642c-585f-456f-8d73-aa343a4e624e/image?iterationId=8cabf572-dea4-4295-8d76-f42171077722', blob, options)
+        return this.http.post('https://southcentralus.api.cognitive.microsoft.com/customvision/v1.0/Prediction/4308642c-585f-456f-8d73-aa343a4e624e/image?iterationId=10a0c664-2868-4126-984d-91d061a447ce', blob, options)
 
     // make the application key an env var when we can
 
