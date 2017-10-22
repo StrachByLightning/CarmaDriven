@@ -10,7 +10,7 @@ import { CameraPreview, CameraPreviewOptions } from '@ionic-native/camera-previe
   providers: [CameraPreview, Geolocation]
 })
 export class HomePage {
-	private safety = 0;
+	public safety = -1;
 
 	constructor(public navCtrl: NavController, private cameraPreview: CameraPreview, 
 		private locationService: LocationServiceProvider, private geolocation: Geolocation) { }
@@ -37,16 +37,38 @@ export class HomePage {
 	  });
 	}
 	
-	getSafety() {
+	/**
+	 * Update this.safety to a non-negative value between 0 - 100 o.w. 
+	 * where higher score means higher safety rating.
+	 * @method setSafety
+	 */
+	updateSafety() {
 		this.geolocation.getCurrentPosition({enableHighAccuracy: true, timeout: 5000}).then(res => {
 			this.locationService.getSafety(res.coords.latitude, res.coords.longitude)
+			//this.locationService.getSafety(42.326194, -71.092367)
 				.subscribe(
 					res => {
-						
+						let obj = JSON.parse(res._body).totalHomeScores;
+
+						if (!this.isEmpty(obj))
+							this.safety = obj.safety.value;
+						else
+							this.safety = -1;
+
+						console.log(this.safety);
 					}, err=> {
 						console.log(err);
 					}
 				)
 		});
+	}
+
+	private isEmpty(obj) {
+    for(var prop in obj) {
+        if(obj.hasOwnProperty(prop))
+            return false;
+		}
+		
+    return JSON.stringify(obj) === JSON.stringify({});
 	}
 }
