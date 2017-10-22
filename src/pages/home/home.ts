@@ -13,19 +13,18 @@ import { LocationServiceProvider } from '../../providers/location-service/locati
 export class HomePage {
 
 	constructor(public navCtrl: NavController, private cameraPreview: CameraPreview) { }
-
+	
 
 	startScanning() {		
 		const cameraPreviewOpts: CameraPreviewOptions = {
-		  x: 0,
-		  y: 0,
-		  width: window.screen.width,
-		  height: window.screen.height,
-		  camera: 'rear',
-		  tapPhoto: true,
-		  previewDrag: true,
-		  toBack: true,
-		  alpha: 1
+			x: 0,
+			y: 0,
+			width: window.screen.width,
+			height: window.screen.height,
+			camera: 'front',
+			toBack: true,
+			tapPhoto: false,
+			previewDrag: false
 		};
 
 		this.cameraPreview.startCamera(cameraPreviewOpts).then(
