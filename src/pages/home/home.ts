@@ -11,8 +11,9 @@ import { TextToSpeech } from '@ionic-native/text-to-speech';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
-  providers: [CameraPreview, computerVisionService, TextToSpeech, Geolocation]
+  providers: [CameraPreview, computerVisionService, TextToSpeech, Geolocation, LocationServiceProvider]
 })
+
 export class HomePage {
 	public safety = 100;
 	private prevSafety = 100;
@@ -91,8 +92,7 @@ export class HomePage {
 		});
   	}
 
-	}
-	
+		
 	/**
 	 * Update this.safety to a non-negative value between 0 - 100 o.w. 
 	 * where higher score means higher safety rating.
