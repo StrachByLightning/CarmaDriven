@@ -2,18 +2,21 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { CameraPreview, CameraPreviewOptions, CameraPreviewPictureOptions } from '@ionic-native/camera-preview';
 import { computerVisionService } from '../../providers/cognitive-service/computerVisionService'
+import { TextToSpeech } from '@ionic-native/text-to-speech'
+
 import 'rxjs/add/operator/toPromise';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
-  providers: [CameraPreview, computerVisionService]
+  providers: [CameraPreview, computerVisionService, TextToSpeech]
 })
 export class HomePage {
 
   constructor(public navCtrl: NavController,
   			private cameraPreview: CameraPreview,
-  			private CVS: computerVisionService) {
+  			private CVS: computerVisionService,
+  			private tts: TextToSpeech) {
 
   }
 
@@ -69,6 +72,7 @@ export class HomePage {
           		if (tts == null){
           			console.log("Nothin")
           		} else {
+          			this.tts.speak(tts).catch((reason: any) => console.log(reason))
           			console.log(tts)
           		}
         	});
