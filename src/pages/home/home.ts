@@ -1,16 +1,18 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { CameraPreview, CameraPreviewOptions } from '@ionic-native/camera-preview';
+import { CameraPreview, CameraPreviewOptions, CameraPreviewPictureOptions } from '@ionic-native/camera-preview';
+import { computerVisionService } from '../../providers/cognitive-service/computerVisionService'
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
-  providers: [CameraPreview]
+  providers: [CameraPreview, computerVisionService]
 })
 export class HomePage {
 
   constructor(public navCtrl: NavController,
-  			private cameraPreview: CameraPreview) {
+  			private cameraPreview: CameraPreview,
+  			private CVS: computerVisionService) {
 
   }
 
@@ -34,5 +36,18 @@ export class HomePage {
 	  (err) => {
 	    console.log(err)
 	  });
-  }
+
+	const pictureOpts: CameraPreviewPictureOptions = {
+	  width: 1280,
+	  height: 1280,
+	  quality: 85
+	}
+
+	this.cameraPreview.takePicture(pictureOpts).then((imageData) => {
+	  	var picture = 'data:image/jpeg;base64,' + imageData;
+	  	this.CVS.getAlerts(picture)
+		}, (err) => {
+		  console.log(err);
+		});
+  	}
 }
