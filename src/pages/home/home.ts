@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { LocationServiceProvider } from '../../providers/location-service/location-service';
-import {Geolocation} from '@ionic-native/geolocation';
+import { Geolocation } from '@ionic-native/geolocation';
 import { CameraPreview, CameraPreviewOptions } from '@ionic-native/camera-preview';
 import { TextToSpeech } from '@ionic-native/text-to-speech';
 
@@ -12,7 +12,7 @@ import { TextToSpeech } from '@ionic-native/text-to-speech';
 })
 export class HomePage {
 	public safety = 100;
-	private prevSafety = -1;
+	private prevSafety = 100;
 
 	constructor(public navCtrl: NavController, private cameraPreview: CameraPreview, 
 		private locationService: LocationServiceProvider, private geolocation: Geolocation,
@@ -51,8 +51,8 @@ export class HomePage {
 		let that = this;
 
 		this.geolocation.getCurrentPosition({enableHighAccuracy: true, timeout: 5000}).then(res => {
-			//this.locationService.getSafety(res.coords.latitude, res.coords.longitude)
-			this.locationService.getSafety(42.326194, -71.092367)
+			this.locationService.getSafety(res.coords.latitude, res.coords.longitude)
+			//this.locationService.getSafety(42.326194, -71.092367)
 				.subscribe(
 					res => {
 						let obj = JSON.parse(res["_body"]).totalHomeScores;
