@@ -21,18 +21,9 @@ export class LocationServiceProvider {
    * @method getSafety
    * @param lat latitude
    * @param lon longitude
-   * @return score between 0-100 with higher score indicating higher safety.
+   * @return promise
    */
   getSafety(lat, lon) {
-    let body = {
-      "lat": lat,
-      "lon": lon,
-      "apikey": this.API_KEY
-    }
-
-    let tempURL = this.BASE_URL + "?lat=" + lat + "&lon=" + lon + "&apikey=" + this.API_KEY;
-
-    return this.http.get(tempURL);
+    return this.http.get(this.BASE_URL + "?lat=" + lat + "&lon=" + lon + "&apikey=" + this.API_KEY);
   }
-
 }
