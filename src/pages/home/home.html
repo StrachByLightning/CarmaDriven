@@ -10,4 +10,33 @@
 </ion-header>-->
 
 
-<ion-content padding style="background:url(assets/img/4JPXR3WARlimOUgyw3XU_home.png) no-repeat center;background-size:cover;" id="page1"></ion-content>
+<ion-content padding class="home">
+
+  <div *ngIf="!showMenu">
+    <img src="https://scontent.fsea1-1.fna.fbcdn.net/v/t34.0-12/22709797_10209717632357871_64767180_n.png?oh=d4885cc49499e73a8eb8fa4d53e48964&oe=59EEE0D3" style="display:block;width:50%;height:auto;margin-left:auto;margin-right:auto;margin-top: -15px;" />
+  </div>
+
+  <div *ngIf="showMenu">
+    <img src="https://scontent-sea1-1.xx.fbcdn.net/v/t35.0-12/22751229_10207524042378242_1591333595_o.png?oh=cdc09d7a6da83089def1154f4b50a37b&oe=59EEBCDD" style="display:block;width:75%;height:auto;margin-left:auto;margin-right:auto;" />
+  </div>
+
+  <ion-row *ngIf="showMenu">
+     <ion-col width-500 style="text-align: center;">
+       <div style="margin-bottom: 75px"></div>
+     </ion-col>
+   </ion-row>
+
+  <ion-row *ngIf="showMenu">
+     <ion-col width-500 style="text-align: center;">
+       <ion-icon color="light" name="car"></ion-icon>
+     </ion-col>
+   </ion-row>
+
+   <ion-row *ngIf="showMenu">
+     <ion-col on-click="startScanner()" style="text-align: center;">
+       <button ion-button large round color="light">Go</button>
+     </ion-col>
+   </ion-row>
+
+
+</ion-content>
